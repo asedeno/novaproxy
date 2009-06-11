@@ -78,7 +78,7 @@ def novaterm(port):
     listener = socket.socket()
     listener.bind(('localhost',myport))
     listener.listen(1)
-    print "Listening on port %i." % myport
+    print "Listening on localhost, port %i." % myport
     (insock, addr) = listener.accept()
     print "Connecting to novacom, running on port: %s" % (port)
     sock = getsocket(port)
