@@ -76,7 +76,6 @@ def recv_str(sh):
 def novaterm(port):
     listener = socket.socket()
     listener.bind(('localhost',myport))
-    print listener
     listener.listen(1)
     print "Listening on port %i." % myport
     (insock, addr) = listener.accept()
