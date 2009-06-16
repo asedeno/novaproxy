@@ -37,7 +37,9 @@ def getport():
     sock = getsocket(6968)
     line = sock.recv(1024)
     if (len(line) < 1):
-        print "novacomd couldn't find your Pre. Ensure it is plugged in and in Developer Mode, and try again. If you continue to receive this message, please seek help via IRC at #webos-internals on irc.freenode.net.\n"
+        print "novacomd couldn't find your Pre. Ensure it is plugged in and in \
+Developer Mode, and try again. If you continue to receive this message, please \
+seek help via IRC at #webos-internals on irc.freenode.net.\n"
         raw_input("Press Enter to exit.")
         exit(-1)
     portnum = line.split(" ")[0]
@@ -48,7 +50,9 @@ def getsocket(port):
     try:
         s.connect(("localhost", port))
     except:
-        print "novacomd is not running. Please re-run the NovacomInstaller and try again. If you continue to receive this message, please seek help via IRC at #webos-internals on irc.freenode.net.\n"
+        print "novacomd is not running. Please re-run the NovacomInstaller and \
+try again. If you continue to receive this message, please seek help via IRC at\
+ #webos-internals on irc.freenode.net.\n"
         raw_input("Press Enter to exit.")
         exit(-1)
     return s
@@ -74,12 +78,14 @@ def recv_str(sh):
     (magic, version, length, unknown) = struct.unpack('<IIII',header)
     if (magic != MAGIC):
         print "Unexpected magic value [0x%x]." % magic
-        print "Please report this issue to #webos-internals on irc.freenode.net."
+        print "Please report this issue to #webos-internals on irc.freenode.net\
+.\n"
         raw_input("Press Enter to exit.")
         exit(-1)
     if (version != 1):
         print "Unexpected protocol version [0x%x]." % version
-        print "Please report this issue to #webos-internals on irc.freenode.net."
+        print "Please report this issue to #webos-internals on irc.freenode.net\
+.\n"
         raw_input("Press Enter to exit.")
         exit(-1)
     if (unknown != 0):
@@ -98,6 +104,9 @@ def novaterm(port):
     sh = sock_helper(sock)
     sock.send("open tty://")
     sh.get_bytes(5)
+    print "novaproxy is ready. Establish a RAW connection to localhost port %i \
+to access the root shell on your Pre.\n" % myport
+    print "Press Ctrl+C when done to exit."
 
     try:
         while 1:
