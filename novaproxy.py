@@ -95,18 +95,26 @@ def recv_str(sh):
 
 def novaterm(port):
     listener = socket.socket()
-    listener.bind(('localhost',myport))
-    listener.listen(1)
-    print "Listening on localhost, port %i." % myport
+    try:
+        listener.bind(('localhost',myport))
+        listener.listen(1)
+    except:
+        print "Listening port is already in use. Is another instance of novapro\
+xy already running?\n"
+        raw_input("Press Enter to exit.")
+        exit(-1)
+    
+    print "Listening on localhost port %i. Launch PuTTY and connect to this por\
+t in RAW mode with 'Terminal -> Line discipline' options all set to 'Force off'\
+.\n" % myport
     (insock, addr) = listener.accept()
-    print "Connecting to novacom, running on port: %s" % (port)
+    print "Proxying connection to novacom running on port %s.\n" % (port)
     sock = getsocket(port)
     sh = sock_helper(sock)
     sock.send("open tty://")
     sh.get_bytes(5)
-    print "novaproxy is ready. Establish a RAW connection to localhost port %i \
-to access the root shell on your Pre.\n" % myport
-    print "Press Ctrl+C when done to exit."
+    print "The root shell should now be open. Type 'exit' in the shell when don\
+e to quit.\n"
 
     try:
         while 1:
@@ -117,10 +125,13 @@ to access the root shell on your Pre.\n" % myport
                     insock.send(recv_str(sh))
             if (insock in r):
                 send_str(sock, insock.recv(1024))
+    except:
+        pass
     finally:
         listener.close()
         insock.close()
         sock.close()
+    
 
 
 if __name__=="__main__":
