@@ -96,6 +96,7 @@ def recv_str(sh):
 def novaterm(port):
     listener = socket.socket()
     try:
+        listener.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
         listener.bind(('localhost',myport))
         listener.listen(1)
     except:
